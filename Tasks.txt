@@ -1,3 +1,0 @@
-1. MusicPlayer -> turns note data into .wav
-2. SheetToText -> turns sheet music into note data
-3. MusicAI -> list of note data, theme, length -> note data
