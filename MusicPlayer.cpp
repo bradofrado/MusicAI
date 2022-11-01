@@ -81,6 +81,7 @@ vector<Note> MusicPlayer::getNotesFromFile(string fileName) {
     string word;
     vector<Note> notes;
     while(!in.eof()) {
+		//cout << "In while loop" << " ";
         string note;
         int octave;
         double duration;
