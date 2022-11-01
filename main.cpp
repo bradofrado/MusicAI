@@ -13,7 +13,7 @@ int main()
 {
     srand(time(0));
     int beatsPerMinute = 60;
-    MusicPlayer player("example.wav", beatsPerMinute);
+    MusicPlayer player("ode-to-joy.wav", beatsPerMinute);
     
-    player.playFile("marry-had-a-little-lamb.txt");
+    player.playFile("Ode-to-joy.txt");
 }
