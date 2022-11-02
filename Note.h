@@ -14,7 +14,6 @@ struct Note {
     int octave;
     double time;
 
-    Note(string note, double duration, double time, double volume) : Note(note, 4, duration, time, volume) {}
     Note(string note, int octave, double duration, double time, double volume) : note(note), octave(octave), duration(duration), time(time), volume(volume) {}
     double getFrequency();
 };
@@ -30,8 +29,8 @@ struct Measure {
     }
 };
 
-struct Song {
-    Song(vector<Measure> measures) {
+struct MusicData {
+    MusicData(vector<Measure> measures) {
         this->measures = measures;
     }
     vector<Measure> measures;

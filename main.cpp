@@ -26,7 +26,7 @@ int main(int argv, char* argc[])
 
     MusicPlayer player(ss.str(), beatsPerMinute);
 	
-    Song song(vector<Measure> {
+    MusicData song(vector<Measure> {
         Measure(vector<Note> {
             //Right hand
             Note("E", 4, .5, 0, 1),
@@ -38,22 +38,22 @@ int main(int argv, char* argc[])
             Note("E", 4, 1, 3, 1),
 
             //Left hand
-            Note("C", 3, .25, 0, 1),
-            Note("D", 3, .25, .25, 1),
-            Note("E", 3, .25, .5, 1),
-            Note("D", 3, .25, .75, 1),
+            Note("C", 3, 0, 0, 1),
+            Note("E", 3, .25, .25, 1),
+            Note("G", 3, .25, .5, 1),
+            Note("E", 3, .25, .75, 1),
             Note("C", 3, .25, 1, 1),
-            Note("D", 3, .25, 1.25, 1),
-            Note("E", 3, .25, 1.5, 1),
-            Note("D", 3, .25, 1.75, 1),
+            Note("E", 3, .25, 1.25, 1),
+            Note("G", 3, .25, 1.5, 1),
+            Note("E", 3, .25, 1.75, 1),
             Note("C", 3, .25, 2, 1),
-            Note("D", 3, .25, 2.25, 1),
-            Note("E", 3, .25, 2.5, 1),
-            Note("D", 3, .25, 2.75, 1),
+            Note("E", 3, .25, 2.25, 1),
+            Note("G", 3, .25, 2.5, 1),
+            Note("E", 3, .25, 2.75, 1),
             Note("C", 3, .25, 3, 1),
-            Note("D", 3, .25, 3.25, 1),
-            Note("E", 3, .25, 3.5, 1),
-            Note("D", 3, .25, 3.75, 1),
+            Note("E", 3, .25, 3.25, 1),
+            Note("G", 3, .25, 3.5, 1),
+            Note("E", 3, .25, 3.75, 1),
         }),
         Measure(vector<Note> {
             Note("D", 4, .5, 0, 1),
@@ -64,22 +64,22 @@ int main(int argv, char* argc[])
             Note("G", 4, 1, 3, 1),
 
             //Left hand
-            Note("C", 3, .25, 0, 1),
+            Note("B", 2, .25, 0, 1),
             Note("D", 3, .25, .25, 1),
-            Note("E", 3, .25, .5, 1),
+            Note("G", 3, .25, .5, 1),
             Note("D", 3, .25, .75, 1),
-            Note("C", 3, .25, 1, 1),
+            Note("B", 2, .25, 1, 1),
             Note("D", 3, .25, 1.25, 1),
-            Note("E", 3, .25, 1.5, 1),
+            Note("G", 3, .25, 1.5, 1),
             Note("D", 3, .25, 1.75, 1),
             Note("C", 3, .25, 2, 1),
-            Note("D", 3, .25, 2.25, 1),
-            Note("E", 3, .25, 2.5, 1),
-            Note("D", 3, .25, 2.75, 1),
+            Note("E", 3, .25, 2.25, 1),
+            Note("G", 3, .25, 2.5, 1),
+            Note("E", 3, .25, 2.75, 1),
             Note("C", 3, .25, 3, 1),
-            Note("D", 3, .25, 3.25, 1),
-            Note("E", 3, .25, 3.5, 1),
-            Note("D", 3, .25, 3.75, 1),
+            Note("E", 3, .25, 3.25, 1),
+            Note("G", 3, .25, 3.5, 1),
+            Note("E", 3, .25, 3.75, 1),
         }),
         Measure(vector<Note> {
             Note("E", 4, .5, 0, 1),
@@ -93,21 +93,21 @@ int main(int argv, char* argc[])
 
             //Left hand
             Note("C", 3, .25, 0, 1),
-            Note("D", 3, .25, .25, 1),
-            Note("E", 3, .25, .5, 1),
-            Note("D", 3, .25, .75, 1),
+            Note("E", 3, .25, .25, 1),
+            Note("G", 3, .25, .5, 1),
+            Note("E", 3, .25, .75, 1),
             Note("C", 3, .25, 1, 1),
-            Note("D", 3, .25, 1.25, 1),
-            Note("E", 3, .25, 1.5, 1),
-            Note("D", 3, .25, 1.75, 1),
+            Note("E", 3, .25, 1.25, 1),
+            Note("G", 3, .25, 1.5, 1),
+            Note("E", 3, .25, 1.75, 1),
             Note("C", 3, .25, 2, 1),
-            Note("D", 3, .25, 2.25, 1),
-            Note("E", 3, .25, 2.5, 1),
-            Note("D", 3, .25, 2.75, 1),
+            Note("E", 3, .25, 2.25, 1),
+            Note("G", 3, .25, 2.5, 1),
+            Note("E", 3, .25, 2.75, 1),
             Note("C", 3, .25, 3, 1),
-            Note("D", 3, .25, 3.25, 1),
-            Note("E", 3, .25, 3.5, 1),
-            Note("D", 3, .25, 3.75, 1),
+            Note("E", 3, .25, 3.25, 1),
+            Note("G", 3, .25, 3.5, 1),
+            Note("E", 3, .25, 3.75, 1),
         }),
         Measure(vector<Note> {
             Note("D", 4, .5, 0, 1),
@@ -117,13 +117,13 @@ int main(int argv, char* argc[])
             Note("C", 4, 2, 2, 1),
 
             //Left hand
-            Note("C", 3, .25, 0, 1),
+            Note("B", 2, .25, 0, 1),
             Note("D", 3, .25, .25, 1),
-            Note("E", 3, .25, .5, 1),
+            Note("G", 3, .25, .5, 1),
             Note("D", 3, .25, .75, 1),
-            Note("C", 3, .25, 1, 1),
+            Note("B", 2, .25, 1, 1),
             Note("D", 3, .25, 1.25, 1),
-            Note("E", 3, .25, 1.5, 1),
+            Note("G", 3, .25, 1.5, 1),
             Note("D", 3, .25, 1.75, 1),
             Note("C", 3, .25, 2, 1),
             Note("D", 3, .25, 2.25, 1),
@@ -133,5 +133,5 @@ int main(int argv, char* argc[])
         })
     });
 
-    player.writeSong(song);
+    player.playData(song);
 }

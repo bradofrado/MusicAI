@@ -9,6 +9,7 @@
 #include "NoteWav.h"
 
 using namespace std;
+using namespace Wav;
 
 class MusicPlayer {
 private:
@@ -23,9 +24,11 @@ private:
     void makeHeader();
     int getNumSamples(double duration);
     double getValueAtN(int n);
-    vector<Note> getNotesFromFile(string fileName);
-    vector<NoteWav> convertToNoteWavs(Song song);
     
+    vector<Note> getNotesFromFile(string fileName);
+    vector<Measure> getMeasuresFromNotes(vector<Note> notes, int beatsInMeasure);
+    vector<NoteWav> convertToNoteWavs(MusicData data);
+
     void close();
 
 public:
@@ -33,11 +36,7 @@ public:
     MusicPlayer(string fileName, int beatsPerMinute);
     ~MusicPlayer();
 
-    void playNote(double frequency, double duration, double volume);
-    void playNote(Note note);
-    void playNotes(vector<Note> notes);
-
     void playFile(string playFile);
 
-    void writeSong(Song song);
+    void playData(MusicData data);
 };

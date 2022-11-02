@@ -11,6 +11,7 @@
 #include "NoteWav.h"
 
 using namespace std;
+using namespace Wav;
 
 namespace little_endian_io
 {
@@ -36,26 +37,7 @@ MusicPlayer::~MusicPlayer(){
     close();
 }
 
-void MusicPlayer::playNote(double frequency, double duration, double volume) {
-    int N = getNumSamples(duration);
-
-    for (int n = 0; n < N; n++)
-    {
-        //This gives the volume a sin wave so that it does not pop
-        double amplitude = volume * max_amplitude * sin((M_PI * n) / N);
-        
-        double value = sin( (2 * M_PI * n * frequency) / hz );
-
-        //C note harmony
-        // double value2 = sin( (2 * M_PI * n * 261.63	) / hz );
-        // value += value2;
-
-        write_word(f,(int)(amplitude  * value), 2);
-        write_word(f,(int)(amplitude  * value), 2);
-    }
-}
-
-void MusicPlayer::writeSong(Song song) {
+void MusicPlayer::playData(MusicData song) {
     int songDuration = song.getDuration();
     int N = getNumSamples(songDuration);
 
@@ -74,14 +56,30 @@ double MusicPlayer::getValueAtN(int n) {
     vector<NoteWav> notes = noteWavs.getCurrentNotes(n);
     
     double value = 0;
+    double volume = 0;
+    
+    //We need to compress the wavs so that the amplitude does not exceed +-1
+    //This figures out what to compress it to
     for (NoteWav note: notes) {
-        value += note.getValue(n);
+        volume += note.volume;
     }
+    
+    volume = volume == 0 ? 1 : volume;
+
+    for (NoteWav note: notes) {
+        double amplitude = note.getAmplitude(n);
+        double sinVal = note.getSinValue(n);
+        double compression = amplitude / volume;
+
+        value += compression * max_amplitude * sinVal;
+    }
+
+
 
     return value;
 }
 
-vector<NoteWav> MusicPlayer::convertToNoteWavs(Song song) {
+vector<NoteWav> MusicPlayer::convertToNoteWavs(MusicData song) {
     vector<NoteWav> wavs;
     int N = 0;
     for (Measure measure : song.measures) {
@@ -100,22 +98,36 @@ vector<NoteWav> MusicPlayer::convertToNoteWavs(Song song) {
     return wavs;
 }
 
-void MusicPlayer::playNote(Note note) {
-    playNote(note.getFrequency(), note.duration, note.volume);
-}
-
-void MusicPlayer::playNotes(vector<Note> notes) {
-    for (int j = 0; j < notes.size(); j++) {
-
-        Note note = notes[j];
-        playNote(note);
-    }
-}
-
 void MusicPlayer::playFile(string fileName) {
     vector<Note> notes = getNotesFromFile(fileName);
 
-    playNotes(notes);
+    vector<Measure> measures = getMeasuresFromNotes(notes, 4);
+    MusicData song(measures);
+    
+    playData(song);
+}
+
+vector<Measure> MusicPlayer::getMeasuresFromNotes(vector<Note> notes, int beatsInMeasure) {
+    vector<Measure> measures;
+
+    double currBeat;
+    vector<Note> currentMeasureNotes;
+    for (Note note: notes) {
+        currBeat += note.duration;
+
+        currentMeasureNotes.push_back(note);
+        if (currBeat >= beatsInMeasure) {
+            measures.push_back(Measure(currentMeasureNotes));
+            currentMeasureNotes = vector<Note>();
+            currBeat = 0;
+        }
+    }
+
+    if (!currentMeasureNotes.empty()) {
+        measures.push_back(Measure(currentMeasureNotes));
+    }
+
+    return measures;
 }
 
 vector<Note> MusicPlayer::getNotesFromFile(string fileName) {
@@ -127,6 +139,7 @@ vector<Note> MusicPlayer::getNotesFromFile(string fileName) {
 
     string word;
     vector<Note> notes;
+    double currTime = 0;
     while(!in.eof()) {
 		string note;
         int octave;
@@ -141,7 +154,13 @@ vector<Note> MusicPlayer::getNotesFromFile(string fileName) {
         in >> word;
         duration = stod(word);
 
-        notes.push_back(Note(note, octave, duration, .5));
+        notes.push_back(Note(note, octave, duration, currTime, 1));
+
+        currTime += duration;
+
+        if (currTime >= 4) {
+            currTime -= 4;
+        }
     }
 
     in.close();

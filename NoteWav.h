@@ -6,6 +6,9 @@
 #include <queue>
 #include <vector>
 
+
+namespace Wav {
+
 struct NoteWav {
     NoteWav(int start, int end, double frequency, double volume, double hz) {
         this->start = start;
@@ -20,19 +23,18 @@ struct NoteWav {
     double frequency;
     double volume;
     double hz;
-
-    double getValue(int n) {
+    
+    double getAmplitude(int n) {
         int N = end - start;
         int noteN = n - start;
+        return volume * sin((M_PI * noteN) / N);
+    }
 
-        double val = 0;
-
-        double amplitude = volume * sin((M_PI * noteN) / N);
-        double value = sin( (2 * M_PI * noteN * frequency) / hz );
-
-        return value * amplitude * 2000;
+    double getSinValue(int n) {
+        return sin( (2 * M_PI * n * frequency) / hz );
     }
 };
+
 
 class FutureNoteCompare {
 public:
@@ -48,7 +50,7 @@ public:
     }
 };
 
-class NoteWavContainer : public priority_queue<NoteWav, vector<NoteWav>, PastNoteCompare> {
+class NoteWavContainer : private priority_queue<NoteWav, vector<NoteWav>, PastNoteCompare> {
 private:
     priority_queue<NoteWav, vector<NoteWav>, FutureNoteCompare> future;
     void createQueue(vector<NoteWav> waves) {
@@ -62,15 +64,18 @@ public:
         createQueue(waves);
     }
     vector<NoteWav> getCurrentNotes(int n) {
+        //Any wav that is not in the future anymore, add that to the current queue
         while (!future.empty() && future.top().start <= n) {
             push(future.top());
             future.pop();
         }
 
-        while (top().end <= n) {
+        //If anything in the current queue has ended, get rid of it
+        while (!empty() && top().end <= n) {
             pop();
         }
 
         return this->c;
     }
+};
 };
