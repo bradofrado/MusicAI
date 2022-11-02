@@ -98,6 +98,8 @@ vector<Note> MusicPlayer::getNotesFromFile(string fileName) {
         notes.push_back(Note(note, octave, duration, .5));
     }
 
+    in.close();
+
     return notes;
 }
 

@@ -12,24 +12,26 @@ using namespace std;
 
 int main(int argv, char* argc[])
 {
-    srand(time(0));
-	 stringstream ss;
-	// ss << argc[2];
-	
-	//int bpm = stoi(argc[2]);
-	// for(int i = 0; i < argv; i++) {
-	// 	cout << argc[i] << "  ";
-	// }
+    if (argv < 3) {
+        cout << "Invalid arguments. Usage <musicfile> <beats per minute>";
+        exit(0);
+    }
 
-    //int beatsPerMinute = stoi(argc[2]);
-	//ss >> beatsPerMinute;
-	string inputFile = argc[1];
+    stringstream ss;
+	int beatsPerMinute = stoi(argc[2]);
+	
+    string inputFile = argc[1];
 	cout << "Now opening: " << inputFile << endl;
 	ss << inputFile << ".wav";
 
-    MusicPlayer player(ss.str(), 60);
+    MusicPlayer player(ss.str(), beatsPerMinute);
 	stringstream ww;
 	ww << inputFile << ".txt";
     
-    player.playFile(ww.str());
+    try {
+        player.playFile(ww.str());
+    } catch(char const* c) {
+        cout << "Error:" << c;
+        exit(0);
+    }
 }
