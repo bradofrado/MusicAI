@@ -5,8 +5,10 @@
 #include <cmath>
 #include <vector>
 #include <map>
+#include <queue>
 #include "MusicPlayer.h"
 #include "Note.h"
+#include "NoteWav.h"
 
 using namespace std;
 
@@ -53,6 +55,51 @@ void MusicPlayer::playNote(double frequency, double duration, double volume) {
     }
 }
 
+void MusicPlayer::writeSong(Song song) {
+    int songDuration = song.getDuration();
+    int N = getNumSamples(songDuration);
+
+    vector<NoteWav> noteWavs = convertToNoteWavs(song);
+    this->noteWavs = NoteWavContainer(noteWavs);
+
+    for (int n = 0; n < N; n++) {
+        double val = getValueAtN(n);
+
+        write_word(f,(int)(val), 2);
+        write_word(f,(int)(val), 2);
+    }
+}
+
+double MusicPlayer::getValueAtN(int n) {
+    vector<NoteWav> notes = noteWavs.getCurrentNotes(n);
+    
+    double value = 0;
+    for (NoteWav note: notes) {
+        value += note.getValue(n);
+    }
+
+    return value;
+}
+
+vector<NoteWav> MusicPlayer::convertToNoteWavs(Song song) {
+    vector<NoteWav> wavs;
+    int N = 0;
+    for (Measure measure : song.measures) {
+        for (Note note : measure.notes) {
+            int numNoteSamples = getNumSamples(note.duration);
+            int timeSamples = getNumSamples(note.time);
+            int start = N + timeSamples;
+
+            NoteWav wav(start, start + numNoteSamples, note.getFrequency(), note.volume, hz);
+            wavs.push_back(wav);
+        }
+
+        N += getNumSamples(measure.getDuration());
+    }
+
+    return wavs;
+}
+
 void MusicPlayer::playNote(Note note) {
     playNote(note.getFrequency(), note.duration, note.volume);
 }
@@ -81,8 +128,7 @@ vector<Note> MusicPlayer::getNotesFromFile(string fileName) {
     string word;
     vector<Note> notes;
     while(!in.eof()) {
-		//cout << "In while loop" << " ";
-        string note;
+		string note;
         int octave;
         double duration;
 

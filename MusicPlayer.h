@@ -6,6 +6,8 @@
 #include <map>
 #include <vector>
 #include "Note.h"
+#include "NoteWav.h"
+
 using namespace std;
 
 class MusicPlayer {
@@ -16,9 +18,14 @@ private:
     ofstream f;
     size_t data_chunk_pos;
 
+    NoteWavContainer noteWavs;
+
     void makeHeader();
     int getNumSamples(double duration);
+    double getValueAtN(int n);
     vector<Note> getNotesFromFile(string fileName);
+    vector<NoteWav> convertToNoteWavs(Song song);
+    
     void close();
 
 public:
@@ -31,4 +38,6 @@ public:
     void playNotes(vector<Note> notes);
 
     void playFile(string playFile);
+
+    void writeSong(Song song);
 };

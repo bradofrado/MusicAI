@@ -3,33 +3,48 @@
 #include <string>
 #include <map>
 #include <cmath>
+#include <vector>
 
 using namespace std;
-
-// map<string, double> frequencyMap1 = {
-//         {"A", 220},
-//         {"A#", 233.08},
-//         {"B", 246.94},
-//         {"C", 261.63},
-//         {"C#", 277.18},
-//         {"D", 293.66},
-//         {"D#", 311.13},
-//         {"E", 329.63},
-//         {"F", 349.23},
-//         {"F#", 369.99},
-//         {"G", 392},
-//         {"G#", 415.3},
-//     };
-
-
 
 struct Note {
     double volume;
     double duration;
     string note;
     int octave;
+    double time;
 
-    Note(string note, double duration, double volume) : Note(note, 4, duration, volume) {}
-    Note(string note, int octave, double duration, double volume) : note(note), octave(octave), duration(duration), volume(volume) {}
+    Note(string note, double duration, double time, double volume) : Note(note, 4, duration, time, volume) {}
+    Note(string note, int octave, double duration, double time, double volume) : note(note), octave(octave), duration(duration), time(time), volume(volume) {}
     double getFrequency();
+};
+
+struct Measure {
+    vector<Note> notes;
+    Measure(vector<Note> notes) {
+        this->notes = notes;
+    }
+
+    int getDuration() {
+        return 4;
+    }
+};
+
+struct Song {
+    Song(vector<Measure> measures) {
+        this->measures = measures;
+    }
+    vector<Measure> measures;
+    int duration = 0;
+    int getDuration() {
+        if (duration > 0) {
+            return duration;
+        }
+
+        for (Measure m : measures) {
+            duration += m.getDuration();
+        }
+
+        return duration;
+    }   
 };

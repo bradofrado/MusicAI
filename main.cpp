@@ -25,13 +25,113 @@ int main(int argv, char* argc[])
 	ss << inputFile << ".wav";
 
     MusicPlayer player(ss.str(), beatsPerMinute);
-	stringstream ww;
-	ww << inputFile << ".txt";
-    
-    try {
-        player.playFile(ww.str());
-    } catch(char const* c) {
-        cout << "Error:" << c;
-        exit(0);
-    }
+	
+    Song song(vector<Measure> {
+        Measure(vector<Note> {
+            //Right hand
+            Note("E", 4, .5, 0, 1),
+            Note("D", 4, .5, .5, 1),
+            Note("C", 4, .5, 1, 1),
+            Note("D", 4, .5, 1.5, 1),
+            Note("E", 4, .5, 2, 1),
+            Note("E", 4, .5, 2.5, 1),
+            Note("E", 4, 1, 3, 1),
+
+            //Left hand
+            Note("C", 3, .25, 0, 1),
+            Note("D", 3, .25, .25, 1),
+            Note("E", 3, .25, .5, 1),
+            Note("D", 3, .25, .75, 1),
+            Note("C", 3, .25, 1, 1),
+            Note("D", 3, .25, 1.25, 1),
+            Note("E", 3, .25, 1.5, 1),
+            Note("D", 3, .25, 1.75, 1),
+            Note("C", 3, .25, 2, 1),
+            Note("D", 3, .25, 2.25, 1),
+            Note("E", 3, .25, 2.5, 1),
+            Note("D", 3, .25, 2.75, 1),
+            Note("C", 3, .25, 3, 1),
+            Note("D", 3, .25, 3.25, 1),
+            Note("E", 3, .25, 3.5, 1),
+            Note("D", 3, .25, 3.75, 1),
+        }),
+        Measure(vector<Note> {
+            Note("D", 4, .5, 0, 1),
+            Note("D", 4, .5, .5, 1),
+            Note("D", 4, 1, 1, 1),
+            Note("E", 4, .5, 2, 1),
+            Note("G", 4, .5, 2.5, 1),
+            Note("G", 4, 1, 3, 1),
+
+            //Left hand
+            Note("C", 3, .25, 0, 1),
+            Note("D", 3, .25, .25, 1),
+            Note("E", 3, .25, .5, 1),
+            Note("D", 3, .25, .75, 1),
+            Note("C", 3, .25, 1, 1),
+            Note("D", 3, .25, 1.25, 1),
+            Note("E", 3, .25, 1.5, 1),
+            Note("D", 3, .25, 1.75, 1),
+            Note("C", 3, .25, 2, 1),
+            Note("D", 3, .25, 2.25, 1),
+            Note("E", 3, .25, 2.5, 1),
+            Note("D", 3, .25, 2.75, 1),
+            Note("C", 3, .25, 3, 1),
+            Note("D", 3, .25, 3.25, 1),
+            Note("E", 3, .25, 3.5, 1),
+            Note("D", 3, .25, 3.75, 1),
+        }),
+        Measure(vector<Note> {
+            Note("E", 4, .5, 0, 1),
+            Note("D", 4, .5, .5, 1),
+            Note("C", 4, .5, 1, 1),
+            Note("D", 4, .5, 1.5, 1),
+            Note("E", 4, .5, 2, 1),
+            Note("E", 4, .5, 2.5, 1),
+            Note("E", 4, .5, 3, 1),
+            Note("E", 4, .5, 3.5, 1),
+
+            //Left hand
+            Note("C", 3, .25, 0, 1),
+            Note("D", 3, .25, .25, 1),
+            Note("E", 3, .25, .5, 1),
+            Note("D", 3, .25, .75, 1),
+            Note("C", 3, .25, 1, 1),
+            Note("D", 3, .25, 1.25, 1),
+            Note("E", 3, .25, 1.5, 1),
+            Note("D", 3, .25, 1.75, 1),
+            Note("C", 3, .25, 2, 1),
+            Note("D", 3, .25, 2.25, 1),
+            Note("E", 3, .25, 2.5, 1),
+            Note("D", 3, .25, 2.75, 1),
+            Note("C", 3, .25, 3, 1),
+            Note("D", 3, .25, 3.25, 1),
+            Note("E", 3, .25, 3.5, 1),
+            Note("D", 3, .25, 3.75, 1),
+        }),
+        Measure(vector<Note> {
+            Note("D", 4, .5, 0, 1),
+            Note("D", 4, .5, .5, 1),
+            Note("E", 4, .5, 1, 1),
+            Note("D", 4, .5, 1.5, 1),
+            Note("C", 4, 2, 2, 1),
+
+            //Left hand
+            Note("C", 3, .25, 0, 1),
+            Note("D", 3, .25, .25, 1),
+            Note("E", 3, .25, .5, 1),
+            Note("D", 3, .25, .75, 1),
+            Note("C", 3, .25, 1, 1),
+            Note("D", 3, .25, 1.25, 1),
+            Note("E", 3, .25, 1.5, 1),
+            Note("D", 3, .25, 1.75, 1),
+            Note("C", 3, .25, 2, 1),
+            Note("D", 3, .25, 2.25, 1),
+            Note("E", 3, .25, 2.5, 1),
+            Note("G", 3, .25, 2.75, 1),
+            Note("C", 4, 1, 3, 1),
+        })
+    });
+
+    player.writeSong(song);
 }

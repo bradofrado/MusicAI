@@ -21,7 +21,7 @@ map<string, int> noteDistance = {
         {"B", 2},
 };
 
-const int OCTAVE_COUNT = 8;
+const int OCTAVE_COUNT = 12;
 const int BASE_OCTAVE = 4;
 const int BASE_HZ = 440;
 
