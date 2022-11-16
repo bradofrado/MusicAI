@@ -9,7 +9,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${fileDirname}\\main.exe",
-            "args": ["mary-had-a-little-lamb", "60"],
+            "args": ["test", "60"],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",
             "environment": [],

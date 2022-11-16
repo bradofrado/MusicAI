@@ -1,11 +1,1 @@
-{
-    "song": {
-        "measures": [{
-            "notes": [{
-                "duration": 1,
-                "timing": 0,
-                "frequency": 293
-            }]
-        }]
-    }
-}
+C 4 16
