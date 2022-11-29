@@ -3,6 +3,7 @@
 #define _USE_MATH_DEFINES
 
 #include <cmath>
+#include <math.h>
 #include <queue>
 #include <vector>
 
@@ -27,33 +28,11 @@ struct NoteWav {
     double getAmplitude(int n) {
         int N = end - start;
         int noteN = n - start;
-        return volume ;//* sin((M_PI * noteN) / N);
+        return volume * sin((M_PI * noteN) / N);
     }
 
     double getSinValue(int n) {
-        int noteN = n - start;
-        double time = noteN / hz;
-        double w = frequency; //+ sin(n);
-        double val = sin( 2 * M_PI * time * w);
-
-        val = doAffects(n, val);
-
-        return val;
-    }
-
-    double doAffects(int n, double val) {
-        int N = end - start;
-        int noteN = n - start;
-        double time = noteN / hz;
-        val *= exp(-0.004 * 2 * M_PI * frequency * time);
-        // val += sin(2 * 2 * M_PI * frequency * time) * exp(-0.004 * 2 * M_PI * frequency * time) / 2;
-        // val += sin(3 * 2 * M_PI * frequency * time) * exp(-0.004 * 2 * M_PI * frequency * time) / 4;
-        // val += sin(4 * 2 * M_PI * frequency * time) * exp(-0.004 * 2 * M_PI * frequency * time) / 8;
-        // val += sin(5 * 2 * M_PI * frequency * time) * exp(-0.004 * 2 * M_PI * frequency * time) / 16;
-        // val += sin(6 * 2 * M_PI * frequency * time) * exp(-0.004 * 2 * M_PI * frequency * time) / 32;
-
-        //val += val * val * val;
-        return val;
+        return sin( (2 * M_PI * n * frequency) / hz );
     }
 };
 
