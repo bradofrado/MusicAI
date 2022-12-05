@@ -41,46 +41,67 @@ void MusicPlayer::playData(MusicData song) {
     int songDuration = song.getDuration();
     int N = getNumSamples(songDuration);
 
-    vector<NoteWav> noteWavs = convertToNoteWavs(song);
+    vector<NoteWav*> noteWavs = convertToNoteWavs(song);
     this->noteWavs = NoteWavContainer(noteWavs);
 
-    for (int n = 0; n < N; n++) {
-        double val = getValueAtN(n);
+    double* vals = new double[N];
+    double maxVolume = 0;
 
-        write_word(f,(int)(val), 2);
-        write_word(f,(int)(val), 2);
+    for (int n = 0; n < N; n++) {
+        double val = getValueAtN(n, maxVolume);
+
+        vals[n] = val;
+
+        // write_word(f,(int)(val), 2);
+        // write_word(f,(int)(val), 2);
+    }
+
+    double compression = maxVolume > max_amplitude ? max_amplitude / maxVolume : 1;
+
+    for (int n = 0; n < N; n++) {
+        double val = vals[n] * compression;
+
+        write_word(f, (int)(val), 2);
+        write_word(f, (int)(val), 2);
+    }
+
+    for (NoteWav* wav : noteWavs) {
+        delete wav;
     }
 }
 
-double MusicPlayer::getValueAtN(int n) {
-    vector<NoteWav> notes = noteWavs.getCurrentNotes(n);
+
+double MusicPlayer::getValueAtN(int n, double& maxVolume) {
+    vector<NoteWav*> notes = noteWavs.getCurrentNotes(n);
     
     double value = 0;
     double volume = 0;
     
     //We need to compress the wavs so that the amplitude does not exceed +-1
     //This figures out what to compress it to
-    for (NoteWav note: notes) {
-        volume += note.volume;
-    }
+    // for (NoteWav note: notes) {
+    //     volume += note.getVolume(n);
+    // }
     
     volume = volume == 0 ? 1 : volume;
 
-    for (NoteWav note: notes) {
-        double amplitude = note.getAmplitude(n);
-        double sinVal = note.getSinValue(n);
+    for (NoteWav* note: notes) {
+        double sinVal = note->getSinValue(n);
+        double amplitude = note->getAmplitude(n);
         double compression = amplitude / volume;
 
         value += compression * max_amplitude * sinVal;
     }
 
-
+    if (value > maxVolume) {
+        maxVolume = value;
+    }
 
     return value;
 }
 
-vector<NoteWav> MusicPlayer::convertToNoteWavs(MusicData song) {
-    vector<NoteWav> wavs;
+vector<NoteWav*> MusicPlayer::convertToNoteWavs(MusicData song) {
+    vector<NoteWav*> wavs;
     int N = 0;
     for (Measure measure : song.measures) {
         for (Note note : measure.notes) {
@@ -88,7 +109,7 @@ vector<NoteWav> MusicPlayer::convertToNoteWavs(MusicData song) {
             int timeSamples = getNumSamples(note.time);
             int start = N + timeSamples;
 
-            NoteWav wav(start, start + numNoteSamples, note.getFrequency(), note.volume, hz);
+            NoteWav* wav = new PianoWav(start, start + numNoteSamples, note.getFrequency(), note.volume, hz);
             wavs.push_back(wav);
         }
 

@@ -23,11 +23,11 @@ private:
 
     void makeHeader();
     int getNumSamples(double duration);
-    double getValueAtN(int n);
+    double getValueAtN(int n, double& maxVolume);
     
     vector<Note> getNotesFromFile(string fileName);
     vector<Measure> getMeasuresFromNotes(vector<Note> notes, int beatsInMeasure);
-    vector<NoteWav> convertToNoteWavs(MusicData data);
+    vector<NoteWav*> convertToNoteWavs(MusicData data);
 
     void close();
 
