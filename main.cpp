@@ -133,6 +133,6 @@ int main(int argv, char* argc[])
         })
     });
 
-    player.playData(song);
-    //player.playFile(inputFile + ".txt");
+    //player.playData(song);
+    player.playFile(inputFile + ".txt");
 }
