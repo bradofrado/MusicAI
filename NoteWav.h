@@ -6,6 +6,12 @@
 #include <math.h>
 #include <queue>
 #include <vector>
+#include "MidiFile.h"
+#include "Options.h"
+#include "Binasc.h"
+#include "MidiEvent.h"
+#include "MidiEventList.h"
+#include "MidiMessage.h"
 
 
 namespace Wav {
