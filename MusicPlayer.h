@@ -7,12 +7,12 @@
 #include <vector>
 #include "Note.h"
 #include "NoteWav.h"
-#include "include/MidiFile.h"
-#include "include/Options.h"
-#include "include/Binasc.h"
-#include "include/MidiEvent.h"
-#include "include/MidiEventList.h"
-#include "include/MidiMessage.h"
+#include "MidiFile.h"
+#include "Options.h"
+#include "Binasc.h"
+#include "MidiEvent.h"
+#include "MidiEventList.h"
+#include "MidiMessage.h"
 
 using namespace std;
 using namespace Wav;

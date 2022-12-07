@@ -7,12 +7,12 @@
 #include <sstream>
 #include "MusicPlayer.h"
 #include "Note.h"
-#include "include/MidiFile.h"
-#include "include/Options.h"
-#include "include/Binasc.h"
-#include "include/MidiEvent.h"
-#include "include/MidiEventList.h"
-#include "include/MidiMessage.h"
+#include "MidiFile.h"
+#include "Options.h"
+#include "Binasc.h"
+#include "MidiEvent.h"
+#include "MidiEventList.h"
+#include "MidiMessage.h"
 
 
 using namespace std;
@@ -20,7 +20,8 @@ using namespace smf;
 
 int main(int argv, char* argc[])
 {
-    if (argc[1] == "-m") {
+    string arg1 = argc[1];
+    if (arg1 == "-m") {
         if (argv < 4) {
             cout << "Invalid arguments. Usage <-m> <inputfile> <outputfile>";
             exit(0);
