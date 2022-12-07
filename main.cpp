@@ -5,6 +5,7 @@
 #include <map>
 #include <vector>
 #include <sstream>
+#include <random>
 #include "MusicPlayer.h"
 #include "Note.h"
 #include "MidiFile.h"
@@ -28,10 +29,83 @@ int main(int argv, char* argc[])
         }
         MidiFile midifile;
         midifile.read(argc[2]);
+		  random_device rd;
+   mt19937 mt(rd());
+   uniform_int_distribution<int> starttime(0, 200);
+   uniform_int_distribution<int> duration(1, 8);
+   uniform_int_distribution<int> pitch(36, 84);
+   uniform_int_distribution<int> velocity(40, 100);
+
+   //MidiFile midifile;
+   int track   = 0;
+   int channel = 0;
+   int instr   = 1;
+   midifile.addTimbre(track, 0, channel, instr);
+
+   int tpq     = midifile.getTPQ();
+   int count   = 640;
+   for (int i=0; i<count; i++) {
+      int starttick = int(starttime(mt) / 4.0 * tpq);
+      int key       = pitch(mt);
+      int endtick   = starttick + int(duration(mt) / 4.0 * tpq);
+      midifile.addNoteOn (track, starttick, channel, key, velocity(mt));
+      midifile.addNoteOff(track, endtick,   channel, key);
+   }
+   midifile.sortTracks();  // Need to sort tracks since added events are
+                           // appended to track in random tick order.
+   string filename = "out.midi";
+      midifile.write(filename);
         if(midifile.status()) midifile.write(argc[3]);
         else cerr << "Problem reading MIDI file " << argc[2] << endl;
-    }
+	}
+	if (arg1 == "-n") {
+		// if (argv < 2) {
+		// 	cout << "Incorrect format. Usage <-n> <outputfile>." << endl;
+		// 	exit(0);
+		// }
+		 MidiFile midifile;
+        //midifile.read(argc[2]);
+		random_device rd;
+		mt19937 mt(rd());
+		uniform_int_distribution<int> starttime(0, 100);
+		uniform_int_distribution<int> duration(1, 16);
+		uniform_int_distribution<int> pitch(24, 96);
+		uniform_int_distribution<int> velocity(30, 100);
 
+		//MidiFile midifile;
+		int track   = 0;
+		int channel = 0;
+		int instr   = 1;
+		midifile.addTimbre(track, 0, channel, instr);
+
+		int tpq  = midifile.getTPQ();
+		int count = 300;
+		int keepcount = 0;
+		for (int i=0; i<count; i++) {
+			if (count % 8 == 0 && keepcount == 0) {
+				int starttick = int(starttime(mt) / 4.0 * tpq);
+				int noo = pitch(mt);
+				int diff = noo % 4;
+				int key  = noo + (12 - diff);
+				int endtick = starttick + int(duration(mt) / 4.0 * tpq);
+				midifile.addNoteOn (track, starttick, channel, key, velocity(mt));
+				midifile.addNoteOff(track, endtick,   channel, key);
+			}
+				int starttick = int(starttime(mt) / 4.0 * tpq);
+				int noo = pitch(mt);
+				int diff = noo % 4;
+				int key  = noo + (12 - diff);
+				int endtick = starttick + int(duration(mt) / 4.0 * tpq);
+				midifile.addNoteOn (track, starttick, channel, key, velocity(mt));
+				midifile.addNoteOff(track, endtick,   channel, key);
+		}
+		midifile.sortTracks();  // Need to sort tracks since added events are
+						// appended to track in random tick order.
+		string filename = "out.midi";
+		midifile.write(filename);
+		if(midifile.status()) midifile.write(filename);
+		else cerr << "Problem reading MIDI file " << filename << endl;
+		}
     else if (argv < 3) {
         cout << "Invalid arguments. Usage <musicfile> <beats per minute>";
         exit(0);
