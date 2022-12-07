@@ -7,17 +7,33 @@
 #include <sstream>
 #include "MusicPlayer.h"
 #include "Note.h"
+#include "include/MidiFile.h"
+#include "include/Options.h"
+#include "include/Binasc.h"
+#include "include/MidiEvent.h"
+#include "include/MidiEventList.h"
+#include "include/MidiMessage.h"
 
 
 using namespace std;
+using namespace smf;
 
 int main(int argv, char* argc[])
 {
-    if (argv < 3) {
-        cout << "Invalid arguments. Usage <musicfile> <beats per minute>";
-        exit(0);
+    if (argc[1] == "-m") {
+        if (argv < 4) {
+            cout << "Invalid arguments. Usage <-m> <inputfile> <outputfile>";
+            exit(0);
+        }
+        MidiFile midifile;
+        midifile.read(argc[2]);
+        if(midifile.status()) midifile.write(argc[3]);
+        else cerr << "Problem reading MIDI file " << argc[2] << endl;
     }
 
+    else if (argv < 3) {
+        cout << "Invalid arguments. Usage <musicfile> <beats per minute>";
+        exit(0);
     stringstream ss;
 	int beatsPerMinute = stoi(argc[2]);
 	
@@ -139,4 +155,5 @@ int main(int argv, char* argc[])
 
     //player.playData(song);
     player.playFile(inputFile + ".txt");
+    }
 }
