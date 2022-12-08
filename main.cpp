@@ -67,7 +67,7 @@ int main(int argv, char* argc[])
         //midifile.read(argc[2]);
 		random_device rd;
 		mt19937 mt(rd());
-		uniform_int_distribution<int> starttime(0, 100);
+		uniform_int_distribution<int> starttime(0, 120);
 		uniform_int_distribution<int> duration(1, 16);
 		uniform_int_distribution<int> pitch(24, 96);
 		uniform_int_distribution<int> velocity(30, 100);
@@ -82,14 +82,108 @@ int main(int argv, char* argc[])
 		int count = 300;
 		int keepcount = 0;
 		for (int i=0; i<count; i++) {
-			if (count % 8 == 0 && keepcount == 0) {
-				int starttick = int(starttime(mt) / 4.0 * tpq);
-				int noo = pitch(mt);
-				int diff = noo % 4;
-				int key  = noo + (12 - diff);
-				int endtick = starttick + int(duration(mt) / 4.0 * tpq);
-				midifile.addNoteOn (track, starttick, channel, key, velocity(mt));
-				midifile.addNoteOff(track, endtick,   channel, key);
+			if (count % 1 == 0) {
+                for (int j = 0; j < 8; j++) {
+                    switch (j) {
+                        case 0: {  //Note of C
+                            int randint = rand() % 4 - 2;
+                            int starttick = int(starttime(mt) / 4.0 * tpq);
+                            int noo = pitch(mt);
+                            int diff = noo % 12;
+                            int key  = ((noo + (12 - diff)) * randint);
+                            int endtick = starttick + int(duration(mt) / 4.0 * tpq);
+                            midifile.addNoteOn (track, starttick, channel, key, velocity(mt));
+                            midifile.addNoteOff(track, endtick,   channel, key);
+                            i++;
+                            break;
+                        }
+                        case 1: {  //Note of E
+                            int randint = rand() % 4 - 2;
+                            int starttick = int(starttime(mt) / 4.0 * tpq);
+                            int noo = pitch(mt);
+                            int diff = noo % 12;
+                            int key  = ((noo + (12 - diff)) + 4) * randint;
+                            int endtick = starttick + int(duration(mt) / 4.0 * tpq);
+                            midifile.addNoteOn (track, starttick, channel, key, velocity(mt));
+                            midifile.addNoteOff(track, endtick,   channel, key);
+                            i++;
+                            break;
+                        }
+                        case 2: {  //Note of G
+                            int randint = rand() % 4 - 2;
+                            int starttick = int(starttime(mt) / 4.0 * tpq);
+                            int noo = pitch(mt);
+                            int diff = noo % 12;
+                            int key  = (noo + (12 - diff) + 7) * randint;
+                            int endtick = starttick + int(duration(mt) / 4.0 * tpq);
+                            midifile.addNoteOn (track, starttick, channel, key, velocity(mt));
+                            midifile.addNoteOff(track, endtick,   channel, key);
+                            i++;
+                            break;
+                        }
+                        case 3: {  //Note of E
+                            int randint = rand() % 4 - 2;
+                            int starttick = int(starttime(mt) / 4.0 * tpq);
+                            int noo = pitch(mt);
+                            int diff = noo % 12;
+                            int key  = (noo + (12 - diff) + 4) * randint;
+                            int endtick = starttick + int(duration(mt) / 4.0 * tpq);
+                            midifile.addNoteOn (track, starttick, channel, key, velocity(mt));
+                            midifile.addNoteOff(track, endtick,   channel, key);
+                            i++;
+                            break;
+                        }
+                        case 4: { //Note of C
+                            int randint = rand() % 4 - 2;
+                            int starttick = int(starttime(mt) / 4.0 * tpq);
+                            int noo = pitch(mt);
+                            int diff = noo % 12;
+                            int key  = ((noo + (12 - diff)) * randint);
+                            int endtick = starttick + int(duration(mt) / 4.0 * tpq);
+                            midifile.addNoteOn (track, starttick, channel, key, velocity(mt));
+                            midifile.addNoteOff(track, endtick,   channel, key);
+                            i++;
+                            break;
+                        }   
+                        case 5: {//Note of E
+                            int randint = rand() % 4 - 2;
+                            int starttick = int(starttime(mt) / 4.0 * tpq);
+                            int noo = pitch(mt);
+                            int diff = noo % 12;
+                            int key  = (noo + (12 - diff) + 4) * randint;
+                            int endtick = starttick + int(duration(mt) / 4.0 * tpq);
+                            midifile.addNoteOn (track, starttick, channel, key, velocity(mt));
+                            midifile.addNoteOff(track, endtick,   channel, key);
+                            i++;
+                            break;
+                        }   
+                        case 6: {//Note of G
+                           int randint = rand() % 4 - 2;
+                            int starttick = int(starttime(mt) / 4.0 * tpq);
+                            int noo = pitch(mt);
+                            int diff = noo % 12;
+                            int key  = (noo + (12 - diff) + 7) * randint;
+                            int endtick = starttick + int(duration(mt) / 4.0 * tpq);
+                            midifile.addNoteOn (track, starttick, channel, key, velocity(mt));
+                            midifile.addNoteOff(track, endtick,   channel, key);
+                            i++;
+                            break;
+                        }
+                        case 7:  {//Note of E
+                            int randint = rand() % 4 - 2;
+                            int starttick = int(starttime(mt) / 4.0 * tpq);
+                            int noo = pitch(mt);
+                            int diff = noo % 12;
+                            int key  = (noo + (12 - diff) + 4) * randint;
+                            int endtick = starttick + int(duration(mt) / 4.0 * tpq);
+                            midifile.addNoteOn (track, starttick, channel, key, velocity(mt));
+                            midifile.addNoteOff(track, endtick,   channel, key);
+                            i++;
+                            break;
+                        }
+                    }
+                }
+				
 			}
 				int starttick = int(starttime(mt) / 4.0 * tpq);
 				int noo = pitch(mt);
